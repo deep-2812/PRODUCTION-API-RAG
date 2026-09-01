@@ -35,7 +35,7 @@ class ProductionAgent:
         
         self.primary_llm = ChatGoogleGenerativeAI(
             model=settings.primary_model,
-            temperature=0,
+            # temperature=0,
             timeout=30,
             max_retries=0,
             api_key=settings.google_api_key,
@@ -149,27 +149,19 @@ class ProductionAgent:
             "model_used": "",
         })
         
+        last_msg = result["messages"][-1]
+        content = last_msg.content
+        if isinstance(content, list):
+            response_text = "".join(
+                item.get("text", "") if isinstance(item, dict) else str(item)
+                for item in content
+            )
+        else:
+            response_text = str(content)
+
         return {
-            "response": result["messages"][-1].content,
+            "response": response_text,
             "model_used": result.get("model_used", "unknown"),
             "error": result.get("error"),
         }
-        
-# from app.agent import ProductionAgent
-
-# agent = ProductionAgent()
-
-# print(' === PRODUCTION AGENT - STANDALONE TEST === ')
-# print()
-
-# queries = [
-# 'What is LangGraph in one sentence?',
-# 'What is 2 + 2?',
-# 'Explain the difference between RAG and fine-tuning in 2 sentences.',
-# ]
-# for query in queries:
-#     print(query)
-#     result = agent.invoke(query)
-#     print(result["response"])
-
     
