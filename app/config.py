@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     # LLM Configuration
     google_api_key: str
     anthropic_api_key: str
-    primary_model: str = "gemini-3.7-flash"
+    primary_model: str = "gemini-3.6-flash"
     fallback_model: str = "claude-haiku-4-5"
 
     # LangSmith
