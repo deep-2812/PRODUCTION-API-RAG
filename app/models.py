@@ -27,6 +27,7 @@ class ChatResponse(BaseModel):
     model_used: str
     cached: bool = False
     processing_time_ms: float
+    security_notes: list[str] = []
     timestamp: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
 
 class HealthResponse(BaseModel):
@@ -46,8 +47,10 @@ class MetricsResponse(BaseModel) :
     total_input_tokens: int
     total_output_tokens: int
 
-class ErrorResponse (BaseModel) :
+class ErrorResponse(BaseModel):
     """Standard error response."""
     error: str
     detail: str | None = None
+    code: str | None = None
+    retry_after_seconds: int | float | None = None
     request_id: str | None = None

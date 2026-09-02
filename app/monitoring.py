@@ -3,7 +3,6 @@ Monitoring & Structured Logging
 Production-grade metrics collection and JSON logging.
 """
 
-from anthropic.types import text_editor_code_execution_tool_result_error_code
 import logging
 import json
 import time
@@ -49,7 +48,7 @@ class MetricsCollector:
      from prometheus_client import Counter, Histogram
     """
 
-    def __init_(self):
+    def __init__(self):
         self._requests_total = 0
         self._errors_total = 0
         self._latency_sum = 0.0

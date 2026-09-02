@@ -3,7 +3,6 @@ Security Layer
 Input sanitization, PII detection/masking, output validation.
 """
 
-from pydantic import functional_serializers
 import re
 from typing import Optional
 from langsmith import traceable
@@ -55,13 +54,14 @@ class PIIDetector:
     """
 
     PATTERNS = {
-    "email": re.compile(
-        r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'),
-    "phone" : re.compile(r'\bd{3} [ -. ]?\d{3}[ -. ]?\d{4}\b'),
-    "ssn": re.compile(r'\b\d{3}_\d{2}-\d{4}\b'),
-    "credit_card": re. compile(
-        r'\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b'
-    ),
+        "email": re.compile(
+            r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        ),
+        "phone": re.compile(r'\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b'),
+        "ssn": re.compile(r'\b\d{3}[-_]\d{2}[-_]\d{4}\b'),
+        "credit_card": re.compile(
+            r'\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b'
+        ),
     }
     
     MASK_MAP = {

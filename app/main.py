@@ -1,3 +1,16 @@
+"""
+Production-Ready FastAPI + LangGraph Application
+
+Wires together:
+- Security pipeline (input sanitization, PII masking)
+- Response caching
+- Rate limiting (slowapi)
+- LangGraph agent (with retries + fallback)
+- Structured logging + metrics
+- LangSmith tracing
+- Health checks
+"""
+
 import time
 import os
 from contextlib import asynccontextmanager
@@ -139,6 +152,7 @@ async def chat(request: Request, body: ChatRequest):
                 model_used="cache",
                 cached=True,
                 processing_time_ms=0,
+                security_notes=security_notes,
             )
         
         # Step3: Invoke Langraph Agent
@@ -196,6 +210,7 @@ async def chat(request: Request, body: ChatRequest):
         model_used=model_used,
         cached=False,
         processing_time_ms=round(timer.elapsed_ms, 2),
+        security_notes=security_notes,
     )
 
 @app.get("/health", response_model=HealthResponse)
